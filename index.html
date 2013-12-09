@@ -1,0 +1,146 @@
+<html>
+<head>
+<title>Dean/Jess Love Puzzle</title>
+<script type="text/javascript" src="http://codeorigin.jquery.com/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/coffee-script/1.6.3/coffee-script.min.js"></script>
+<script type="text/javascript" src="http://www.chicagogrooves.com/js/autotab.min.js"></script>
+<!--script type="text/coffeescript" src="http://www.chicagogrooves.com/js/cryptarithm.coffee"> </script-->
+
+<style>
+.puzzle{ font-family: Courier; font-size: 6em; width: 4em; position: relative; left: 50px; }
+.puzzle:before{ content: " " }
+.plus{ font-size: 4em;  position: relative; }
+
+#puzzle-term2{ border-bottom: 2px black solid; position: relative; left: 10px; }
+
+.button{ font-size: 2.5em; border-radius: 8px;}
+input[type="text"] { border: none }
+h1{ font-family: Verdana; display: none; }
+</style>
+</head>
+<body>
+
+<h1>Can you solve for Dean/Jess' Love ?</h1>
+<form>
+  <input type="text" id="puzzle-term1" class="puzzle" pattern="[0-9]*" placeholder="DEAN" value="DEAN"/><br/>
+  <span class="plus">+</span><input type="text" id="puzzle-term2" class="puzzle" pattern="[0-9]*" placeholder="JESS" value="JESS"/><br/>
+  <input type="text" id="puzzle-sum" class="puzzle" pattern="[0-9]*" placeholder="LOVE" value="LOVE"/>
+
+  <div>
+    <button class="button" id="submit" onclick="checkit(); return false;">Check It</button>&nbsp;
+    <button class="button" id="reset">Reset</button>
+    <button class="button" id="hint">Hint</button>
+  </div>
+</form>
+
+
+
+<script type="text/coffeescript">
+__ = if _? then _ else require('underscore')
+
+class Cryptarithm
+  @messages:
+    addError: "Provided solution does not add up"
+    reusedNumberError: "The same number can not be assigned to two letters"
+    reusedLetterError: "The same letter can not be assigned two numbers"
+
+  constructor: (@term1, @term2, @sum) ->
+
+  solve: (solt1, solt2, solsum) -> 
+      try
+        @solution_map = create_map( @term1+@term2+@sum, solt1+solt2+solsum )
+        assert Number(solt1) + Number(solt2) == Number(solsum), Cryptarithm.messages.addError
+        @failure_reason = undefined
+        @success=true
+      catch err
+        @failure_reason = err.message.replace /:.*/, ''
+        @success=false
+
+  create_map = (puzzle, answer) ->
+    do(solxn={}) ->
+      for [l,v] in __.zip(puzzle, answer)
+        v = Number(v)
+        prev_letter = __.invert(solxn)[v]
+        if prev_letter? && prev_letter isnt l
+          assert false, Cryptarithm.messages.reusedNumberError + "- can't assign #{v} to both #{prev_letter} and #{l}"
+          
+        prev_number = solxn[l]
+        if prev_number? && prev_number isnt v
+          assert false, Cryptarithm.messages.reusedLetterError + "- can't assign #{l} to both #{prev_number} and #{v}"
+
+        solxn[l] = v
+      solxn
+
+  assert = (t,msg)->
+    throw {message: msg} unless t
+  
+global = if exports? then exports else window
+global.Cryptarithm = Cryptarithm
+global.deanjess = new Cryptarithm "DEAN", "JESS", "LOVE"
+
+</script>
+
+<script type="text/javascript">
+  function checkit(){
+    var t1  = $("#puzzle-term1").val()
+    var t2  = $("#puzzle-term2").val()
+    var sum = $("#puzzle-sum").val()
+    
+    if( ! (Number(t1) && Number(t2) && Number(sum) ) ){
+      alert("Try replacing all the letters with numbers and see if you can solve for Dean and Jess' love !")
+      return
+    }
+    
+    if( deanjess.solve(t1, t2, sum) )
+      alert('Yay, you\'ve solved for Dean and Jess\' love! Thanks for playing !')
+    else
+      alert('Sorry, ' + deanjess.failure_reason)
+  }
+
+  function resetit(){
+      $("#puzzle-term1").val("DEAN");
+      $("#puzzle-term2").val("JESS");
+      $("#puzzle-sum").val("LOVE");
+      return false;
+  }
+
+  function hint(){
+    if( $("#puzzle-term2").val() == "JESS" ){
+      $("#puzzle-term1").val("D5AN")
+      $("#puzzle-term2").val("J5SS")
+      $("#puzzle-sum").val("LOV5");
+    }
+    else if( $("#puzzle-term2").val() == "J5SS" ){
+      $("#puzzle-term1").val("D5AN")
+      $("#puzzle-term2").val("J533")
+      $("#puzzle-sum").val("L0V5");
+    }
+    else if( $("#puzzle-term2").val() == "J533" ){
+      alert("No more hints - make your guess!")
+    }
+    return false;
+  }
+
+  $(function(){
+      $("#reset").on('click', resetit);
+      $("#hint").on('click', hint);
+
+  });
+  
+  //doesnt work on mobile safari but ok on desktop :/
+  $('.puzzle').autotab({ maxlength: 4 });
+  
+  $(function () {
+      var focusedElement;
+      $(document).on('focus', 'input', function () {
+          if (focusedElement == this) return; //already focused, return so user can now place cursor at specific point in input.
+          focusedElement = this;
+          //focusedElement.setSelectionRange(0,10);
+          //select all text in any field on focus for easy re-entry. Delay sightly to allow focus to "stick" before selecting.
+          setTimeout(function () { focusedElement.setSelectionRange(0,10); }, 50); 
+      });
+  });
+</script>
+</body>
+</html>
