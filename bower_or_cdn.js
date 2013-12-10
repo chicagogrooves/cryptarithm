@@ -43,7 +43,7 @@ function getScript(url,success){
 //HACK these dont load in any particular order, especially not following
 // declared bower dependencies, so sometimes you need to setTimeout to
 // ensure code runs after these scripts are loaded
-Zepto.getJSON('/bower.json', function(data){
+Zepto.getJSON('bower.json', function(data){
   var deps = data.dependencies
   for(var dep in deps){
     loadScript( dep, deps[dep] )
