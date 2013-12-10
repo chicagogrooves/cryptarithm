@@ -41,3 +41,4 @@ class Cryptarithm
 
 global = if exports? then exports else window
 global.Cryptarithm = Cryptarithm
+global.deanjess = new Cryptarithm "DEAN", "JESS", "LOVE"

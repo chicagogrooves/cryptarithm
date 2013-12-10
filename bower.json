@@ -1,0 +1,34 @@
+{
+  "name": "Cryptarithm",
+  "version": "0.1.0",
+  "homepage": "https://github.com/chicagogrooves/cryptarithm",
+  "authors": [
+    "Dean Radcliffe <dean@deanius.com>"
+  ],
+  "description": "A coffeescript implementation of a cryptarithm puzzle, with a specific implementation for testing",
+  "main": "src/cryptarithm.coffee",
+  "keywords": [
+    "cryptarithm",
+    "math",
+    "puzzle",
+    "alphametic",
+    "word",
+    "problem"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "coffee-script": "1.6.3",
+    "jquery": "1.10.2",
+    "underscore": "1.5.2",
+    "requirejs": "2.1.9",
+    "autotab": "1.5b",
+    "cryptarithm": "0.1.0"
+  }
+}
