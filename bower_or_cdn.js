@@ -5,7 +5,7 @@ var Zepto=function(){function G(a){return a==null?String(a):z[A.call(a)]||"objec
 //name ->  [local, cdn]
 var locations = {
   "autotab": ["jquery.autotab.min.js", "//chicagogrooves.github.io/jquery-autotab/js/jquery.autotab.min.js"],
-  "cryptarithm": ["cryptarithm.js", "//chicagogrooves.github.io/cryptarithm/js/cryptarithm.js"],
+  "cryptarithm": ["cryptarithm.js", "//www.chicagogrooves.com/js/cryptarithm.js"],
   "coffee-script": ["extras/coffee-script.js", "//cdnjs.cloudflare.com/ajax/libs/coffee-script/VERSION/coffee-script.min.js"],
   "jquery": ["jquery.min.js", "//code.jquery.com/jquery-VERSION.min.js"],
   "underscore": ["underscore-min.js", "//cdnjs.cloudflare.com/ajax/libs/underscore.js/VERSION/underscore-min.js"],
