@@ -3,9 +3,6 @@
   "version": "0.0.1",
   "description": "A coffeescript implementation of a cryptarithm puzzle, with a specific implementation for testing",
   "main": "src/cryptarithm.coffee",
-  "directories": {
-    "test": "test"
-  },
   "dependencies": {
     "bower": "~1.2.8",
     "chai": "~1.8.1",
@@ -14,14 +11,14 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha -R spec"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/chicagogrooves/cryptarithm.git"
   },
   "author": "",
-  "license": "BSD-2-Clause",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/chicagogrooves/cryptarithm/issues"
   },
